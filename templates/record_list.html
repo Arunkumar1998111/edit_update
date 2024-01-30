@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>record list</title>
+</head>
+
+<body>
+    <h1>employee detail</h1>
+    {% if rec %}
+    <h1> show data</h1>
+    {% for re in rec %}
+    <h5>{{re.created_at}}</h5>
+    <h5>{{re.first_name}}</h5>
+    <h5>{{re.last_name }}</h5>
+    <h5>{{re.email}}</h5>
+    <h5>{{re.phone}}</h5>
+    <h5>{{re.address}}</h5>
+    <h5>{{re.city}}</h5>
+    {% endfor %}
+    {% else %}
+    <h1>No data</h1>
+    {% endif %}
+
+
+</body>
+
+</html>
+
+{% endblock %}
