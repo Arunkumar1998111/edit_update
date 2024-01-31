@@ -14,26 +14,25 @@ def record_list(request):
 
 
 
-def home(request, record_id=None):
+def home(request):
     try:
         records = Record.objects.all()
 
         if request.method == 'POST':
             form = AddRecordForm(request.POST)
             if form.is_valid():
-                addrecord = form.save()
+                form.save()
                 messages.success(request, "Record added successfully")
                 return redirect("home")
         else:
-           
-                form = AddRecordForm()
+            form = AddRecordForm()
 
         return render(request, 'home.html', {'records': records, 'form': form})
 
     except Exception as e:
         print(e)
         messages.error(request, "An error occurred.")
-        return redirect('error_page')
+        return redirect('home')
    
 
 def logout_user(request):
@@ -147,7 +146,7 @@ def delete_record(request, pk):
 
 def update_record(request, pk):
    if request.user.is_authenticated:
-    records = get_object_or_404(Record, id=pk)
+    records = Record.objects.get(id=pk)
     
     if request.method == "POST":
         fname = request.POST.get("fname")
@@ -168,7 +167,7 @@ def update_record(request, pk):
         records.state = state  # Corrected indentation
         records.zipcode = zipcode
         records.save()
-
+        messages.success(request, "sucecessfully edited data" )
         return redirect('home')
 
     # Handle cases where the user is not authenticated or other errors
