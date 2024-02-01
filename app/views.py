@@ -4,6 +4,25 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, AddRecordForm
 from .models import Record 
+from django.http import HttpResponse
+import csv
+
+
+def export_to_csv(request):
+    Records = Record.objects.all()
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Record_export.csv'
+    
+    writer = csv.writer(response)
+    writer.writerow(['Created_at', 'First_Name', 'Last_Name', 'Email', 'Phone', 'Address', 'City', 'State', 'Zipcode'])
+    
+    Record_fields = Records.values_list('created_at', 'first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zipcode')
+    
+    for record in Record_fields:
+        writer.writerow(record)
+    
+    return response
+
 
 
 
@@ -12,6 +31,9 @@ def record_list(request):
 	rec = Record.objects.all()
 	return render (request,'record_list.html',{'reco':rec})
 
+def single_user(request,pk):
+	rec = Record.objects.get(id=pk)
+	return render (request,'single_user.html',{'re':rec})
 
 
 def home(request):

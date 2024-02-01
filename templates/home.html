@@ -74,7 +74,13 @@
 <div class="card border-0 bg-white px-5 ">
   <div class="card-header bg-white border-0">
     <div class="text-end">
+      <a class="btn btn-secondary my-3 text-end" href="{% url 'export_to_csv' %}">Download CSV files</a>
     <button class="btn btn-secondary my-3 text-end" href="" data-bs-toggle="modal" data-bs-target="#add_record">Add Record</button>
+  </div>
+  <div class="text-end">
+    
+    
+
   </div>
   </div>
   <div class="card-body">
@@ -97,7 +103,7 @@
         {% if records %}
           {% for record in records %}
             <tr>
-              <td>{{ record.first_name }} {{ record.last_name }}</td>
+              <td><a href="{%  url 'single_user' record.pk %}" > {{ record.first_name }} {{ record.last_name }}</td>
               <td>{{ record.email }}</td>
               <td>{{ record.phone }}</td>
               <td>{{ record.address }}</td>

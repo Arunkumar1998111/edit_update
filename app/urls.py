@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home,logout_user,register_user,customer_record,delete_record, update_record,record_list
+from .views import home,logout_user,register_user,customer_record,delete_record, update_record,record_list,single_user,export_to_csv
 
 
 
@@ -13,6 +13,8 @@ urlpatterns = [
     # path('add_record/', add_record, name='add_record'),
     path('update_record/<int:pk>', update_record, name='update_record'),
     path('record_list/',record_list,name='record_list'),
-    # path('edit/<int:pk>',edit_data,name="edit")
+    # path('edit/<int:pk>',edit_data,name="edit"),
+    path('single_user/<int:pk>',single_user,name='single_user'),
+    path('export-to-csv',export_to_csv,name='export_to_csv')
     
 ]

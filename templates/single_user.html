@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<head>
+    <style>
+        .name {
+            position: relative;
+        }
+        
+        .name img {
+            display: block; /* Ensure the image is a block element */
+            margin: 0 auto; /* Center the image horizontally */
+        }
+        
+        .name span {
+            font-size: 24px; /* Adjust the font size as needed */
+            color: #ffffff; /* Set the text color */
+        }
+        .list-group-item{
+            border:none;
+        }
+        
+    </style>
+</head>
+
+<div class="card px-5 py-5" style="max-width: 450px; margin: 20px;">
+    <div class="card-header bg-white text-center">
+        <div class="name text-center position-relative">
+            <img src="your_image_url.jpg" alt="" class="rounded-circle bg-body-secondary" style="height: 200px; width: 200px">
+            <span class="position-absolute top-50 start-50 translate-middle fw-bold text-secondary" style="font-size: 40px;">{{re.first_name.0 | upper }}{{re.last_name.0 | upper }}</span>
+        </div>
+    </div>
+
+    <div class="card-body text-center">
+        <h1>{{ re.first_name }} {{ re.last_name }}</h1>
+    </div>
+
+    <ul class="list-group list-group-flush text-center">
+        <li class="list-group-item" >Joined on: {{ re.created_at }}</li>
+        <li class="list-group-item">First Name: {{ re.first_name }}</li>
+        <li class="list-group-item">Last Name: {{ re.last_name }}</li>
+        <li class="list-group-item">Email: {{ re.email }}</li>
+        <li class="list-group-item">Address: {{ re.address }}</li>
+        <li class="list-group-item">City: {{ re.city }}</li>
+    </ul>
+</div>
+
+
+
+{%  endblock %}
