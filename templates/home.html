@@ -1,11 +1,22 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
 
 
 
 {% if user.is_authenticated %}
+
+<head>
+  <style>
+    a{
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+
+    }
+  </style>
+</head>
 <!-- Button trigger modal -->
 
 
@@ -14,7 +25,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="add_record" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-scrolly ">
     <div class="modal-content">
 
       <div class="modal-header">
@@ -25,9 +36,10 @@
 
 <div class="modal-body">
 <h1>Add Record</h1>
-<form method="POST"class="px-3 px-md-5 py-5">
+<form method="POST"class="px-3 px-md-5 py-5" enctype="multipart/form-data">
 	{% csrf_token %}
  <div class="row"> 
+  <div class="col-md-6  col-12">{{ form.photo }}</div>
   <div class="col-md-6  col-12">{{ form.first_name }}</div>
   <div class="col-md-6 col-12 ">{{ form.last_name }}</div>
   <div class="col-md-6  col-12">{{ form.email }}</div>
@@ -37,7 +49,7 @@
   <div class="col-md-6  col-12">{{ form.state }}</div>
   <div class="col-md-6 col-12 ">{{ form.zipcode }}</div> 
   <div class="col-md-3 col-12"></div>
-  
+  <button type="submit" class="btn btn-secondary">save</button>
   </div>
 </form>
 
@@ -79,14 +91,15 @@
   </div>
   <div class="text-end">
     
-    
+{% comment %} DISPLAY / READ method {% endcomment %}
 
   </div>
   </div>
   <div class="card-body">
-    <table class="table table-dark table-hover">
+    <table class="table table-dark ">
       <thead class="dark-table">
         <tr>
+          <th>User</th>
           <th scope="col">Name</th>
           <th scope="col">Email</th>
           <th scope="col">Phone</th>
@@ -103,6 +116,16 @@
         {% if records %}
           {% for record in records %}
             <tr>
+          {% if record.photo %}
+              <td><img src="{{ record.photo.url }}" class="rounded-circle border border-5 border-seccondary" style="height:50px; width: 50px;"></td>
+          {% else %}
+
+          <td style="background-image: url('{% static 'image/blank.png' %}'); background-size: cover; background-repeat: no-repeat; height: 50px; width: 30px;" class="rounded-circle">
+          </td>
+          
+          
+            
+          {% endif %}
               <td><a href="{%  url 'single_user' record.pk %}" > {{ record.first_name }} {{ record.last_name }}</td>
               <td>{{ record.email }}</td>
               <td>{{ record.phone }}</td>
@@ -124,7 +147,7 @@
             </tr>
            
         
-        
+        {% comment %} GET METHOD {% endcomment %}
           <div class="modal fade" id="edit_user-{{ record.id }}"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"    aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
@@ -136,10 +159,14 @@
                   <div class="col-md-6 offset-md-3">
                     <h1>Edit Record</h1>
                     {% comment %} <form action="" method="POST"> {% endcomment %}
-                    <form action="{% url 'update_record' record.id %} " method="POST">
+                    <form action="{% url 'update_record' record.id %} " method="POST" enctype="multipart/form-data">
         
                       {% csrf_token %}
                     <div class="row">
+
+                      <div class="col">
+                        <input type="file" class="form-control" name="photo" value="{{record.photo}}">
+                      </div>
                       <div class="col col-md-6">
                      <input type="text"class="form-control form-control-lg" name="fname" value="{{record.first_name}}">
                       </div>

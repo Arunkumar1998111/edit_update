@@ -31,9 +31,34 @@ def record_list(request):
 	rec = Record.objects.all()
 	return render (request,'record_list.html',{'reco':rec})
 
-def single_user(request,pk):
-	rec = Record.objects.get(id=pk)
-	return render (request,'single_user.html',{'re':rec})
+def single_user(request, pk):
+    rec = Record.objects.get(id=pk)
+#   post method
+    if request.method == "POST":
+        photo = request.FILES.get("photo")
+        fname = request.POST.get("fname")
+        lname = request.POST.get("lname")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+        city = request.POST.get("city")
+        address = request.POST.get("address")
+        state = request.POST.get("state")
+        zipcode = request.POST.get("zipcode")
+        
+
+        rec.photo = photo
+        rec.first_name = fname
+        rec.last_name = lname
+        rec.email = email
+        rec.phone = phone
+        rec.city = city
+        rec.address = address
+        rec.state = state
+        rec.zipcode = zipcode
+        rec.save()
+        messages.success(request, "Successfully edited data")
+    
+    return render(request, 'single_user.html', {'re': rec})
 
 
 def home(request):
@@ -41,7 +66,7 @@ def home(request):
         records = Record.objects.all()
 
         if request.method == 'POST':
-            form = AddRecordForm(request.POST)
+            form = AddRecordForm(request.POST,request.FILES)
             if form.is_valid():
                 form.save()
                 messages.success(request, "Record added successfully")
@@ -171,6 +196,7 @@ def update_record(request, pk):
     records = Record.objects.get(id=pk)
     
     if request.method == "POST":
+        photo = request.FILES.get("photo")
         fname = request.POST.get("fname")
         lname = request.POST.get("lname")
         email = request.POST.get("email")
@@ -180,6 +206,7 @@ def update_record(request, pk):
         state = request.POST.get("state")
         zipcode = request.POST.get("zipcode")
 
+        records.photo = photo
         records.first_name = fname
         records.last_name = lname
         records.email = email

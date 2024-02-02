@@ -38,6 +38,7 @@ class SignUpForm(UserCreationForm):
 
 # Create Add Record Form
 class AddRecordForm(forms.ModelForm):
+	photo = forms.ImageField(required=False, widget=forms.widgets.FileInput(attrs={ "class":"form-control form-control-lg my-3"}), label="")
 	first_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"First Name", "class":"form-control form-control-lg my-3"}), label="")
 	last_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Last Name", "class":"form-control form-control-lg my-3"}), label="")
 	email = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Email", "class":"form-control form-control-lg my-3"}), label="")
